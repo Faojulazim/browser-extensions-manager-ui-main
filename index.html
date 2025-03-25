@@ -13,11 +13,9 @@
     <title>Frontend Mentor | Browser extensions manager UI</title>
   </head>
   <body
-    class="font-NotoSans bg-DarkGradient bg-no-repeat min-h-[100vh] text-white"
+    class="font-NotoSans bg-DarkGradient bg-no-repeat min-h-[100vh] text-white lg:max-w-[2000px] px-5 lg:mx-auto lg:px-10 xl:px-20 2xl:px-32"
   >
-    <nav
-      class="px-5 py-5 transition-all duration-1000 lg:px-20 xl:px-32 2xl:px-40"
-    >
+    <nav class="py-7 transition-all duration-1000">
       <div
         class="flex items-center justify-between bg-Neutral800 py-3 px-3 rounded-xl"
         id="navColor"
@@ -49,42 +47,48 @@
           </defs>
         </svg>
         <img
-          class="bg-Neutral700 px-3 py-3 rounded-lg w-[47px] transition-all"
+          class="bg-Neutral700 px-3 py-3 rounded-lg w-[47px] transition-all cursor-pointer"
           id="moon"
           src="assets/images/icon-sun.svg"
           alt=""
         />
         <img
-          class="bg-neutral-200 transition-all px-3 py-3 rounded-lg w-[47px] hidden"
+          class="bg-neutral-200 transition-all px-3 py-3 rounded-lg w-[47px] hidden cursor-pointer"
           id="sun"
           src="assets/images/icon-moon.svg"
           alt=""
         />
       </div>
     </nav>
-    <main class="lg:px-20 xl:px-32 2xl:px-40">
-      <div class="mt-5 lg:flex lg:items-center lg:justify-between">
+    <main class="">
+      <div class="mt-0 lg:flex lg:items-center lg:justify-between">
         <h1 class="font-[700] text-3xl text-center">Extensions List</h1>
         <div class="flex items-center justify-center mt-5 lg:mt-0 gap-x-3">
           <button
-            class="bg-Red400 text-Neutral900 px-5 py-2 rounded-full font-[500] text-lg"
+            class="bg-Red400 text-Neutral900 px-5 py-2 rounded-full font-[500] text-lg border border-Red400"
+            data-Btns=""
+            id="AllBtn"
           >
             All
           </button>
           <button
             class="bg-Neutral700 px-5 py-2 rounded-full font-[500] border border-Neutral600 text-lg"
+            id="ActiveBtn"
+            data-Btns=""
           >
             Active
           </button>
           <button
             class="bg-Neutral700 px-5 py-2 rounded-full font-[500] border border-Neutral600 text-lg"
+            id="InactiveBtn"
+            data-Btns=""
           >
             Inactive
           </button>
         </div>
       </div>
       <div
-        class="flex flex-col gap-y-5 gap-x-5 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-10 lg:py-14"
+        class="lg:px-0 gap-y-5 gap-x-5 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-5 lg:pt-10"
         id="container"
       ></div>
     </main>
