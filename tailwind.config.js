@@ -25,6 +25,7 @@ module.exports = {
         375: "375px",
         425: "425px",
         500: "500px",
+        1440: "1440px",
       },
       backgroundImage: {
         LightGradient: "linear-gradient(180deg, #ebf2fc 0%, #eef8f9 100%)",

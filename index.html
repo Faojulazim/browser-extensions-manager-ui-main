@@ -13,9 +13,11 @@
     <title>Frontend Mentor | Browser extensions manager UI</title>
   </head>
   <body
-    class="font-NotoSans transition-all duration-1000 bg-DarkGradient bg-no-repeat min-h-[100vh] text-white"
+    class="font-NotoSans bg-DarkGradient bg-no-repeat min-h-[100vh] text-white"
   >
-    <nav class="px-5 py-5 transition-all duration-1000">
+    <nav
+      class="px-5 py-5 transition-all duration-1000 lg:px-20 xl:px-32 2xl:px-40"
+    >
       <div
         class="flex items-center justify-between bg-Neutral800 py-3 px-3 rounded-xl"
         id="navColor"
@@ -60,10 +62,10 @@
         />
       </div>
     </nav>
-    <main>
-      <div class="mt-5">
+    <main class="lg:px-20 xl:px-32 2xl:px-40">
+      <div class="mt-5 lg:flex lg:items-center lg:justify-between">
         <h1 class="font-[700] text-3xl text-center">Extensions List</h1>
-        <div class="flex items-center justify-center mt-5 gap-x-3">
+        <div class="flex items-center justify-center mt-5 lg:mt-0 gap-x-3">
           <button
             class="bg-Red400 text-Neutral900 px-5 py-2 rounded-full font-[500] text-lg"
           >
@@ -81,43 +83,12 @@
           </button>
         </div>
       </div>
-      <div class="px-5 mt-10">
-        <div class="bg-Neutral800 border-2 border-Neutral600 rounded-2xl">
-          <div class="p-5 flex flex-col gap-y-7">
-            <div class="flex items-start gap-x-5">
-              <img
-                class="w-[150px]"
-                src="assets/images/logo-devlens.svg"
-                alt=""
-              />
-              <div class="mt-[2px]">
-                <h2 class="font-[700] text-[1.4rem] leading-none">DevLens</h2>
-                <p class="mt-2 text-Neutral300">
-                  Quickly inspect page layouts and visualize element boundaries.
-                </p>
-              </div>
-            </div>
-            <div class="flex items-center justify-between">
-              <button
-                class="px-5 py-2 bg-Neutral800 border border-Neutral600 rounded-full text-[15px] font-[500]"
-              >
-                Remove
-              </button>
-              <div
-                class="w-[60px] h-[26px] bg-Neutral600 flex items-center px-[3px] rounded-full"
-                data-toggleDiv=""
-              >
-                <div
-                  class="bg-white rounded-full w-[20px] h-[20px] transition-all"
-                  data-toggleCircle=""
-                ></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div
+        class="flex flex-col gap-y-5 gap-x-5 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-10 lg:py-14"
+        id="container"
+      ></div>
     </main>
-
+    <script src="functions.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
