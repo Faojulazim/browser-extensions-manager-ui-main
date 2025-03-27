@@ -4,7 +4,6 @@ const container = document.querySelector("#container");
 const AllBtn = document.querySelector("#AllBtn");
 const ActiveBtn = document.querySelector("#ActiveBtn");
 const InactiveBtn = document.querySelector("#InactiveBtn");
-const Buttons = document.querySelectorAll("[data-Btns]");
 
 let obj;
 (async function getData() {
@@ -12,12 +11,15 @@ let obj;
   const apiJson = await api.json();
   obj = apiJson;
   giveData(obj);
+  btnCall(obj);
 })();
 
 async function giveData(obj) {
   obj.forEach((items) => {
     container.innerHTML += `<div
-class="bg-Neutral800 border-2 border-Neutral600 rounded-2xl"
+class="${
+      localStorage.getItem("theme") === "dark" ? "bg-Neutral800" : "bg-white"
+    } border-2 border-Neutral600 rounded-2xl"
 data-item=""
 >
 <div class="p-5 flex flex-col gap-y-7">
@@ -28,15 +30,27 @@ data-item=""
       alt=""
     />
     <div class="mt-[2px]">
-      <h2 class="font-[700] text-[1.4rem] leading-none">${items.name}</h2>
-      <p class="mt-2 text-Neutral300">
+      <h2 class="font-[700] ${
+        localStorage.getItem("theme") === "dark"
+          ? "text-white"
+          : "text-Neutral800"
+      } text-[1.4rem] leading-none">${items.name}</h2>
+      <p class="mt-2  ${
+        localStorage.getItem("theme") === "dark"
+          ? "text-Neutral300"
+          : "text-Neutral600"
+      }">
         ${items.description}
       </p>
     </div>
   </div>
   <div class="flex items-center justify-between">
     <button
-      class="px-5 py-2 bg-Neutral800 border border-Neutral600 rounded-full text-[15px] font-[500]" data-removeBtn=""
+      class="px-5 py-2  border border-Neutral600 rounded-full text-[15px] font-[500] ${
+        localStorage.getItem("theme") === "dark"
+          ? "bg-Neutral800 text-white"
+          : "bg-white text-Neutral800"
+      }" data-removeBtn=""
     >
       Remove
     </button>
@@ -45,7 +59,9 @@ data-item=""
       data-toggleDiv=""
     >
       <div
-        class="bg-white rounded-full w-[20px] h-[20px] transition-all"
+        class="bg-white rounded-full w-[20px] h-[20px] transition-all ${
+          items.isActive == true ? "active" : "unactive"
+        }"
       
         data-toggleCircle=""
       ></div>
@@ -54,92 +70,213 @@ data-item=""
 </div>
 </div>`;
   });
+  gt();
   remove();
-  active(obj);
-  btnCall(obj);
 }
-function active(items2) {
-  const toggleCircle = document.querySelectorAll("[data-toggleCircle]");
-  toggleCircle.forEach((items, i) => {
-    const isActive = items2[i].isActive;
-    if (isActive) {
-      items.classList.add("translate-x-[34px]");
-      items.parentElement.classList.add("bg-Red400");
-    } else {
-      items.classList.remove("translate-x-[34px]");
-      items.parentElement.classList.remove("bg-Red400");
-    }
+function gt() {
+  document.querySelectorAll(".active").forEach((items) => {
+    items.classList.add("translate-x-[34px]");
+    items.parentElement.classList.add("bg-Red400");
   });
 }
-Buttons.forEach((items) => {
-  items.addEventListener("click", (e) => {
-    items.classList.add("bg-Red400");
-    items.classList.add("text-Neutral900");
-    items.classList.add("border-Red400");
-    Buttons.forEach((otherItems) => {
-      if (items !== otherItems) {
-        otherItems.classList.add("bg-Neutral700");
-        otherItems.classList.add("border-Neutral600");
-        otherItems.classList.remove("bg-Red400");
-        otherItems.classList.remove("text-Neutral900");
-        otherItems.classList.remove("border-Red400");
-      }
-    });
-  });
-});
+
 function btnCall(items2) {
-  ActiveBtn.addEventListener("click", (e) => {
-    const toggleCircle = document.querySelectorAll("[data-toggleCircle]");
-    toggleCircle.forEach((items, i) => {
-      const isActive = items2[i].isActive;
-      if (!isActive) {
-        items.parentElement.parentElement.parentElement.parentElement.classList.add(
-          "hidden"
-        );
-      } else {
-        items.parentElement.parentElement.parentElement.parentElement.classList.remove(
-          "hidden"
-        );
-      }
-    });
-  });
-  InactiveBtn.addEventListener("click", (e) => {
-    const toggleCircle = document.querySelectorAll("[data-toggleCircle]");
-    toggleCircle.forEach((items, i) => {
-      const isActive = items2[i].isActive;
-      if (isActive) {
-        items.parentElement.parentElement.parentElement.parentElement.classList.add(
-          "hidden"
-        );
-      } else {
-        items.parentElement.parentElement.parentElement.parentElement.classList.remove(
-          "hidden"
-        );
-      }
-    });
-  });
   AllBtn.addEventListener("click", (e) => {
-    const toggleCircle = document.querySelectorAll("[data-toggleCircle]");
-    toggleCircle.forEach((items, i) => {
-      const isActive = items2[i].isActive;
-      if (isActive) {
-        items.parentElement.parentElement.parentElement.parentElement.classList.remove(
-          "hidden"
-        );
-      } else {
-        items.parentElement.parentElement.parentElement.parentElement.classList.remove(
-          "hidden"
-        );
-      }
+    container.innerHTML = "";
+    giveData(obj);
+  });
+  ActiveBtn.addEventListener("click", () => {
+    document.querySelectorAll("[data-item]").forEach((items, i) => {
+      document
+        .querySelectorAll("[data-removeBtn]")
+        [i].classList.add("bg-white");
+      document
+        .querySelectorAll("[data-removeBtn]")
+        [i].classList.add("text-Neutral900");
+      document
+        .querySelectorAll("[data-removeBtn]")
+        [i].classList.add("border-Neutral300");
+      items.querySelector("p").classList.add("text-Neutral600");
+
+      items.classList.add("bg-white");
+      items.classList.add("border-Neutral300");
     });
+    let active = obj.filter((item) => item.isActive);
+    container.innerHTML = "";
+    giveData(active);
+  });
+  InactiveBtn.addEventListener("click", () => {
+    let inactive = obj.filter((item) => !item.isActive);
+    container.innerHTML = "";
+    giveData(inactive);
   });
 }
 function remove() {
   const removeBtn = document.querySelectorAll("[data-removeBtn]");
   removeBtn.forEach((items) => {
     items.addEventListener("click", (e) => {
-      items.parentElement.parentElement.parentElement.remove();
-      console.log(obj);
+      const name =
+        items.parentElement.parentElement.querySelector("h2").textContent;
+      obj = obj.filter((item) => item.name !== name);
+      let active = ActiveBtn.classList.contains("bg-Red400")
+        ? obj.filter((item) => item.isActive)
+        : InactiveBtn.classList.contains("bg-Red400")
+        ? obj.filter((item) => !item.isActive)
+        : (obj = obj.filter((item) => item));
+      container.innerHTML = "";
+      giveData(active);
     });
   });
 }
+function as() {
+  window.addEventListener("DOMContentLoaded", (e) => {
+    const Buttons = document.querySelectorAll("[data-Btns]");
+    const toggleDiv = document.querySelectorAll("[data-toggleDiv]");
+    const toggleCircle = document.querySelectorAll("[data-toggleCircle]");
+
+    function moonChange() {
+      moon.classList.add("hidden");
+      sun.classList.remove("hidden");
+      document.body.classList.remove("bg-DarkGradient");
+      document.body.classList.add("bg-LightGradient");
+      document.querySelector("#changeFirst").classList.remove("fill-[#fff]");
+      document
+        .querySelector("#changeFirst")
+        .classList.add("fill-[hsl(3_77%_44%)]");
+      document.querySelector("#changeSecond").classList.remove("fill-[#fff]");
+      document.querySelector("#changeSecond").classList.add("fill-Neutral800");
+      document.querySelector("#navColor").classList.remove("bg-Neutral800");
+      document.querySelector("#navColor").classList.add("bg-Neutral0");
+      sun.parentElement.classList.add("bg-Neutral0");
+
+      document.querySelectorAll("h1,h2").forEach((items) => {
+        items.classList.add("text-Neutral800");
+      });
+      document.querySelectorAll("[data-item]").forEach((items, i) => {
+        document
+          .querySelectorAll("[data-removeBtn]")
+          [i].classList.add("bg-white");
+        document
+          .querySelectorAll("[data-removeBtn]")
+          [i].classList.add("text-Neutral900");
+        document
+          .querySelectorAll("[data-removeBtn]")
+          [i].classList.add("border-Neutral300");
+        items.querySelector("p").classList.add("text-Neutral600");
+
+        items.classList.add("bg-white");
+        items.classList.add("border-Neutral300");
+      });
+
+      Buttons.forEach((items) => {
+        if (!items.classList.contains("bg-Red400")) {
+          items.classList.add("bg-white");
+          items.classList.add("border-Neutral300");
+          items.classList.remove("border-Red500");
+          items.classList.remove("text-white");
+          items.classList.remove("bg-Red500");
+          items.classList.add("text-Neutral900");
+        }
+        items.addEventListener("click", (e) => {
+          items.classList.add("bg-Red500");
+          items.classList.add("text-white");
+          items.classList.add("border-Red500");
+          Buttons.forEach((otherItems) => {
+            if (items !== otherItems) {
+              otherItems.classList.add("bg-white");
+              otherItems.classList.add("border-Neutral300");
+              otherItems.classList.remove("border-Red500");
+              otherItems.classList.remove("text-white");
+              otherItems.classList.remove("bg-Red500");
+              otherItems.classList.add("text-Neutral900");
+            }
+          });
+        });
+      });
+    }
+    function sunChange() {
+      moon.classList.remove("hidden");
+      sun.classList.add("hidden");
+      document.body.classList.add("bg-DarkGradient");
+      document.body.classList.remove("bg-LightGradient");
+      document.querySelector("#changeFirst").classList.add("fill-[#fff]");
+      document
+        .querySelector("#changeFirst")
+        .classList.remove("fill-[hsl(3_77%_44%)]");
+      document.querySelector("#changeSecond").classList.add("fill-[#fff]");
+      document
+        .querySelector("#changeSecond")
+        .classList.remove("fill-Neutral800");
+      document.querySelector("#navColor").classList.add("bg-Neutral800");
+      document.querySelector("#navColor").classList.remove("bg-Neutral0");
+
+      document.querySelectorAll("h1,h2").forEach((items) => {
+        items.classList.remove("text-Neutral800");
+      });
+      document.querySelectorAll("[data-item]").forEach((items, i) => {
+        document
+          .querySelectorAll("[data-removeBtn]")
+          [i].classList.remove("bg-white");
+        document
+          .querySelectorAll("[data-removeBtn]")
+          [i].classList.remove("text-Neutral900");
+        document
+          .querySelectorAll("[data-removeBtn]")
+          [i].classList.remove("border-Neutral300");
+        items.querySelector("p").classList.remove("text-Neutral600");
+
+        items.classList.remove("bg-white");
+        items.classList.remove("border-Neutral300");
+      });
+
+      Buttons.forEach((items) => {
+        if (items.classList.contains("bg-Red400")) {
+          items.classList.remove("bg-white");
+          items.classList.remove("border-Neutral300");
+          items.classList.add("border-Red500");
+          items.classList.add("text-white");
+          items.classList.add("bg-Red500");
+          items.classList.remove("text-Neutral900");
+        } else {
+          items.classList.remove("bg-white");
+          items.classList.add("text-white");
+          items.classList.remove("border-Neutral300");
+          items.classList.add("border-Neutral600");
+        }
+        items.addEventListener("click", (e) => {
+          items.classList.add("bg-Red400");
+          items.classList.add("text-white");
+          items.classList.add("border-Red400");
+          Buttons.forEach((otherItems) => {
+            if (items !== otherItems) {
+              otherItems.classList.add("bg-Neutral700");
+              otherItems.classList.add("border-Neutral600");
+              otherItems.classList.remove("bg-Red400");
+              otherItems.classList.remove("text-Neutral900");
+              otherItems.classList.remove("border-Red400");
+              otherItems.classList.remove("bg-white");
+              otherItems.classList.remove("border-Neutral300");
+              otherItems.classList.add("text-white");
+              otherItems.classList.remove("text-Neutral900");
+            }
+          });
+        });
+      });
+    }
+
+    moon.addEventListener("click", (e) => {
+      localStorage.setItem("theme", "white");
+      moonChange();
+    });
+    sun.addEventListener("click", (e) => {
+      localStorage.setItem("theme", "dark");
+      sunChange();
+    });
+    if (localStorage.getItem("theme") === "dark") {
+      sunChange();
+    } else {
+      moonChange();
+    }
+  });
+}
+as();
