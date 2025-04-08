@@ -303,11 +303,13 @@ function as() {
       localStorage.setItem("theme", "dark");
       sunChange();
     });
+
     if (localStorage.getItem("theme") === "dark") {
       sunChange();
     } else {
       moonChange();
     }
   });
+  localStorage.setItem("theme", "dark");
 }
 as();
