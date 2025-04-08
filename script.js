@@ -18,8 +18,10 @@ async function giveData(obj) {
   obj.forEach((items) => {
     container.innerHTML += `<div
 class="${
-      localStorage.getItem("theme") === "dark" ? "bg-Neutral800" : "bg-white"
-    } border-2 border-Neutral600 rounded-2xl"
+      localStorage.getItem("theme") === "dark"
+        ? "bg-Neutral800 border-Neutral700"
+        : "bg-white border-Neutral300"
+    } border-2  rounded-2xl"
 data-item=""
 >
 <div class="p-5 flex flex-col gap-y-7">
@@ -78,35 +80,42 @@ function gt() {
     items.classList.add("translate-x-[34px]");
     items.parentElement.classList.add("bg-Red400");
   });
+  document
+    .querySelectorAll("[data-toggleDiv]")
+    .forEach((toggleItems, index) => {
+      toggleItems.addEventListener("click", (e) => {
+        if (toggleItems.classList.contains("bg-Red400")) {
+          toggleItems
+            .querySelector("[data-toggleCircle]")
+            .classList.remove("translate-x-[34px]");
+          toggleItems.classList.remove("bg-Red400");
+          obj[index].isActive = false;
+        } else {
+          toggleItems
+            .querySelector("[data-toggleCircle]")
+            .classList.add("translate-x-[34px]");
+          toggleItems.classList.add("bg-Red400");
+          obj[index].isActive = true;
+        }
+      });
+    });
 }
 
 function btnCall(items2) {
   AllBtn.addEventListener("click", (e) => {
     container.innerHTML = "";
+    gt();
     giveData(obj);
   });
   ActiveBtn.addEventListener("click", () => {
-    document.querySelectorAll("[data-item]").forEach((items, i) => {
-      document
-        .querySelectorAll("[data-removeBtn]")
-        [i].classList.add("bg-white");
-      document
-        .querySelectorAll("[data-removeBtn]")
-        [i].classList.add("text-Neutral900");
-      document
-        .querySelectorAll("[data-removeBtn]")
-        [i].classList.add("border-Neutral300");
-      items.querySelector("p").classList.add("text-Neutral600");
-
-      items.classList.add("bg-white");
-      items.classList.add("border-Neutral300");
-    });
     let active = obj.filter((item) => item.isActive);
+    gt();
     container.innerHTML = "";
     giveData(active);
   });
   InactiveBtn.addEventListener("click", () => {
     let inactive = obj.filter((item) => !item.isActive);
+    gt();
     container.innerHTML = "";
     giveData(inactive);
   });
@@ -115,6 +124,7 @@ function remove() {
   const removeBtn = document.querySelectorAll("[data-removeBtn]");
   removeBtn.forEach((items) => {
     items.addEventListener("click", (e) => {
+      gt();
       const name =
         items.parentElement.parentElement.querySelector("h2").textContent;
       obj = obj.filter((item) => item.name !== name);
@@ -151,8 +161,12 @@ function as() {
 
       document.querySelectorAll("h1,h2").forEach((items) => {
         items.classList.add("text-Neutral800");
+        items.classList.remove("text-white");
       });
       document.querySelectorAll("[data-item]").forEach((items, i) => {
+        document
+          .querySelectorAll("[data-removeBtn]")
+          [i].classList.remove("bgNeutral800");
         document
           .querySelectorAll("[data-removeBtn]")
           [i].classList.add("bg-white");
@@ -161,33 +175,45 @@ function as() {
           [i].classList.add("text-Neutral900");
         document
           .querySelectorAll("[data-removeBtn]")
+          [i].classList.remove("text-white");
+        document
+          .querySelectorAll("[data-removeBtn]")
           [i].classList.add("border-Neutral300");
         items.querySelector("p").classList.add("text-Neutral600");
 
+        items.classList.remove("bg-Neutral700");
         items.classList.add("bg-white");
         items.classList.add("border-Neutral300");
+        items.classList.remove("border-Neutral700");
       });
 
       Buttons.forEach((items) => {
         if (!items.classList.contains("bg-Red400")) {
           items.classList.add("bg-white");
           items.classList.add("border-Neutral300");
-          items.classList.remove("border-Red500");
+          items.classList.remove("border-Red400");
           items.classList.remove("text-white");
-          items.classList.remove("bg-Red500");
+          items.classList.remove("bg-Red400");
           items.classList.add("text-Neutral900");
+        } else {
+          items.classList.add("bg-Red400");
+          items.classList.remove("text-white");
+          items.classList.add("text-Neutral800");
         }
         items.addEventListener("click", (e) => {
-          items.classList.add("bg-Red500");
-          items.classList.add("text-white");
-          items.classList.add("border-Red500");
+          items.classList.remove("bg-white");
+          items.classList.add("bg-Red400");
+          items.classList.add("text-Neutral800");
+          items.classList.remove("border-Neutral300");
+          items.classList.remove("border-Neutral600");
+          items.classList.add("border-Red400");
           Buttons.forEach((otherItems) => {
             if (items !== otherItems) {
               otherItems.classList.add("bg-white");
               otherItems.classList.add("border-Neutral300");
-              otherItems.classList.remove("border-Red500");
+              otherItems.classList.remove("border-Red400");
               otherItems.classList.remove("text-white");
-              otherItems.classList.remove("bg-Red500");
+              otherItems.classList.remove("bg-Red400");
               otherItems.classList.add("text-Neutral900");
             }
           });
@@ -222,20 +248,25 @@ function as() {
           [i].classList.remove("text-Neutral900");
         document
           .querySelectorAll("[data-removeBtn]")
+          [i].classList.add("text-white");
+        document
+          .querySelectorAll("[data-removeBtn]")
           [i].classList.remove("border-Neutral300");
         items.querySelector("p").classList.remove("text-Neutral600");
 
         items.classList.remove("bg-white");
         items.classList.remove("border-Neutral300");
+        items.classList.add("bg-Neutral800");
+        items.classList.add("border-Neutral700");
       });
 
       Buttons.forEach((items) => {
         if (items.classList.contains("bg-Red400")) {
           items.classList.remove("bg-white");
           items.classList.remove("border-Neutral300");
-          items.classList.add("border-Red500");
+          items.classList.add("border-Red400");
           items.classList.add("text-white");
-          items.classList.add("bg-Red500");
+          items.classList.add("bg-Red400");
           items.classList.remove("text-Neutral900");
         } else {
           items.classList.remove("bg-white");
