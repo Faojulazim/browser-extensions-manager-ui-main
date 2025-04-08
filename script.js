@@ -310,6 +310,8 @@ function as() {
       moonChange();
     }
   });
-  localStorage.setItem("theme", "dark");
+  if (!localStorage.getItem("theme")) {
+    localStorage.setItem("theme", "dark");
+  }
 }
 as();
