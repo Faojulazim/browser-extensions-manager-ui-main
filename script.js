@@ -11,7 +11,7 @@ let obj;
   const apiJson = await api.json();
   obj = apiJson;
   giveData(obj);
-  btnCall(obj);
+  btnCall();
 })();
 
 async function giveData(obj) {
@@ -134,7 +134,7 @@ function gt() {
     });
 }
 
-function btnCall(items2) {
+function btnCall() {
   AllBtn.addEventListener("click", (e) => {
     container.innerHTML = "";
     gt();
@@ -143,14 +143,14 @@ function btnCall(items2) {
   ActiveBtn.addEventListener("click", () => {
     let active = obj.filter((item) => item.isActive);
     gt();
-    container.innerHTML = ""; // Clear the container
-    giveData(active); // Re-render the active items
+    container.innerHTML = "";
+    giveData(active);
   });
   InactiveBtn.addEventListener("click", () => {
     let inactive = obj.filter((item) => !item.isActive);
     gt();
-    container.innerHTML = ""; // Clear the container
-    giveData(inactive); // Re-render the inactive items
+    container.innerHTML = "";
+    giveData(inactive);
   });
 }
 function remove() {
