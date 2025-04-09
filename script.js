@@ -143,16 +143,12 @@ function btnCall(items2) {
   ActiveBtn.addEventListener("click", () => {
     let active = obj.filter((item) => item.isActive);
     gt();
-    console.log(active);
-
     container.innerHTML = ""; // Clear the container
     giveData(active); // Re-render the active items
   });
   InactiveBtn.addEventListener("click", () => {
     let inactive = obj.filter((item) => !item.isActive);
     gt();
-    console.log(inactive);
-
     container.innerHTML = ""; // Clear the container
     giveData(inactive); // Re-render the inactive items
   });
