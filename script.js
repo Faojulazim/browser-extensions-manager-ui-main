@@ -80,22 +80,45 @@ function gt() {
     items.classList.add("translate-x-[34px]");
     items.parentElement.classList.add("bg-Red400");
   });
+
   document
     .querySelectorAll("[data-toggleDiv]")
     .forEach((toggleItems, index) => {
       toggleItems.addEventListener("click", (e) => {
-        if (toggleItems.classList.contains("bg-Red400")) {
+        console.log(toggleItems);
+        if (
+          toggleItems
+            .querySelector("[data-toggleCircle]")
+            .classList.contains("translate-x-[34px]")
+        ) {
           toggleItems
             .querySelector("[data-toggleCircle]")
             .classList.remove("translate-x-[34px]");
           toggleItems.classList.remove("bg-Red400");
-          obj[index].isActive = false;
+          if (ActiveBtn.classList.contains("bg-Red400")) {
+            let active = obj.filter((item) => item.isActive);
+            active[index].isActive = false;
+            console.log(active[index]);
+          } else if (InactiveBtn.classList.contains("bg-Red400")) {
+            let inactive = obj.filter((item) => !item.isActive);
+            inactive[index].isActive = false;
+            console.log(inactive[index]);
+          }
         } else {
           toggleItems
             .querySelector("[data-toggleCircle]")
             .classList.add("translate-x-[34px]");
           toggleItems.classList.add("bg-Red400");
-          obj[index].isActive = true;
+
+          if (ActiveBtn.classList.contains("bg-Red400")) {
+            let active = obj.filter((item) => item.isActive);
+            active[index].isActive = true;
+            console.log(active[index]);
+          } else if (InactiveBtn.classList.contains("bg-Red400")) {
+            let inactive = obj.filter((item) => !item.isActive);
+            inactive[index].isActive = true;
+            console.log(inactive[index]);
+          }
         }
       });
     });
@@ -110,14 +133,18 @@ function btnCall(items2) {
   ActiveBtn.addEventListener("click", () => {
     let active = obj.filter((item) => item.isActive);
     gt();
-    container.innerHTML = "";
-    giveData(active);
+    console.log(active);
+
+    container.innerHTML = ""; // Clear the container
+    giveData(active); // Re-render the active items
   });
   InactiveBtn.addEventListener("click", () => {
     let inactive = obj.filter((item) => !item.isActive);
     gt();
-    container.innerHTML = "";
-    giveData(inactive);
+    console.log(inactive);
+
+    container.innerHTML = ""; // Clear the container
+    giveData(inactive); // Re-render the inactive items
   });
 }
 function remove() {
