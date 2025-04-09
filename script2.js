@@ -96,16 +96,14 @@ function gt() {
           toggleItems.classList.remove("bg-Red400");
           if (ActiveBtn.classList.contains("bg-Red400")) {
             let active = obj.filter((item) => item.isActive);
+            // toggleItems.closest("[data-item]").remove();
             active[index].isActive = false;
-            container.innerHTML = "";
-            active = obj.filter((item) => item.isActive);
-            giveData(active);
+            console.log(active[index]);
           } else if (InactiveBtn.classList.contains("bg-Red400")) {
             let inactive = obj.filter((item) => !item.isActive);
+            // toggleItems.closest("[data-item]").remove();
             inactive[index].isActive = false;
-            container.innerHTML = "";
-            inactive = obj.filter((item) => !item.isActive);
-            giveData(inactive);
+            console.log(inactive[index]);
           } else {
             obj[index].isActive = false;
           }
@@ -116,16 +114,14 @@ function gt() {
           toggleItems.classList.add("bg-Red400");
           if (ActiveBtn.classList.contains("bg-Red400")) {
             let active = obj.filter((item) => item.isActive);
+            // toggleItems.closest("[data-item]").remove();
             active[index].isActive = true;
-            container.innerHTML = "";
-            active = obj.filter((item) => item.isActive);
-            giveData(active);
+            console.log(active[index]);
           } else if (InactiveBtn.classList.contains("bg-Red400")) {
             let inactive = obj.filter((item) => !item.isActive);
+            // toggleItems.closest("[data-item]").remove();
             inactive[index].isActive = true;
-            container.innerHTML = "";
-            inactive = obj.filter((item) => !item.isActive);
-            giveData(inactive);
+            console.log(inactive[index]);
           } else {
             obj[index].isActive = true;
           }
